@@ -1,8 +1,22 @@
 <article class="card" [class.active]="active()" (click)="select.emit(track())">
-  <img [src]="track().coverUrl" [alt]="track().title" />
-  <h3>{{ track().title }}</h3>
-  <p>{{ track().artist }}</p>
-  @if (active()) {
-    <span class="badge">▶ En lecture</span>
-  }
+  <div class="cover">
+    <img [src]="track().coverUrl" [alt]="track().title" />
+    @if (track().favorite) {
+      <span class="fav" title="Favori">♥</span>
+    }
+    @if (active()) {
+      <span class="badge">▶ En lecture</span>
+    }
+  </div>
+
+  <div class="body">
+    <h3 class="title">{{ track().title }}</h3>
+    <p class="artist">{{ track().artist }}</p>
+
+    <div class="meta">
+      <span class="genre">{{ track().genre }}</span>
+      <span class="year">{{ track().year }}</span>
+      <span class="rating">★ {{ track().rating }}/10</span>
+    </div>
+  </div>
 </article>
