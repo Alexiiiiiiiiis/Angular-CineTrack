@@ -1,0 +1,18 @@
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { Track } from '../models/track';
+
+@Component({
+  selector: 'app-track-card',
+  imports: [],
+  templateUrl: './track-card.html',
+  styleUrl: './track-card.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class TrackCard {
+  // Le morceau à afficher (entrée obligatoire).
+  track = input.required<Track>();
+  // Indique si cette carte est la carte active.
+  active = input(false);
+  // Émet le morceau quand l'utilisateur clique sur la carte.
+  select = output<Track>();
+}
