@@ -78,7 +78,9 @@ npm start
 
 > Équivaut à `ng serve`. Utilise `npm start` si la commande `ng` n'est pas reconnue (le CLI global n'est pas dans le PATH).
 
-Puis ouvre **http://localhost:4200/**. L'application se recharge automatiquement à chaque modification.
+Puis ouvre **http://localhost:4444/**. L'application se recharge automatiquement à chaque modification.
+
+> Le port **4444** est configuré par défaut dans `angular.json` (`serve.options.port`).
 
 ### Compiler pour la production
 
