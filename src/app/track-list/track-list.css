@@ -1,13 +1,5 @@
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1.5rem;
-}
-
-.grid > p {
-  grid-column: 1 / -1;
-  padding: 3rem 1rem;
-  text-align: center;
-  color: #9a9ab0;
-  font-style: italic;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
 }
