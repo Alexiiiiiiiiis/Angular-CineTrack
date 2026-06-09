@@ -19,8 +19,8 @@
 }
 
 .card.active {
-  border-color: #6c5ce7;
-  box-shadow: 0 0 0 2px #6c5ce7;
+  border-color: #00b894;
+  box-shadow: 0 0 0 2px #00b894;
 }
 
 .card img {
