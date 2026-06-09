@@ -41,10 +41,39 @@
   font-size: 0.875rem;
 }
 
-.duration {
-  margin: 0;
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.progress .time {
   color: #888;
-  font-size: 0.8rem;
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  min-width: 2.4em;
+  text-align: center;
+}
+
+.progress .bar {
+  flex: 1;
+  height: 4px;
+  border-radius: 999px;
+  background: #d9d9e0;
+  overflow: hidden;
+}
+
+.progress .fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: #1db954; /* vert Spotify */
+}
+
+/* La barre se remplit quand la carte est en lecture */
+.card.active .progress .fill {
+  width: 30%;
+  background: #1db954;
 }
 
 .badge {

@@ -7,7 +7,11 @@
   <h3>{{ track().title }}</h3>
   <p>{{ track().artist }}</p>
 
-  <p class="duration">⏱ {{ track().durationSeconds | durationFormat }}</p>
+  <div class="progress">
+    <span class="time">{{ 0 | durationFormat }}</span>
+    <div class="bar"><div class="fill"></div></div>
+    <span class="time">{{ track().durationSeconds | durationFormat }}</span>
+  </div>
 
   @switch (true) {
     @case (track().rating >= 9) {
