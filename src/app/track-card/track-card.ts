@@ -17,4 +17,6 @@ export class TrackCard {
   active = input(false);
   // Émet le morceau quand l'utilisateur clique sur la carte.
   select = output<Track>();
+  // Émet le morceau quand l'utilisateur veut le supprimer.
+  remove = output<Track>();
 }

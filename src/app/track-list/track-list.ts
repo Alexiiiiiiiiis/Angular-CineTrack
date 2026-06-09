@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 import { TrackCard } from '../track-card/track-card';
 import { Track } from '../models/track';
 
@@ -12,6 +12,8 @@ import { Track } from '../models/track';
 export class TrackList {
   // La liste reçoit les morceaux du parent : elle ne détient aucune donnée en dur.
   tracks = input.required<Track[]>();
+  // Remonte au parent l'id du morceau à supprimer.
+  remove = output<number>();
   // Mémorise l'id de la carte actuellement active.
   protected selectedId = signal<number | null>(null);
   // Terme de recherche saisi par l'utilisateur.

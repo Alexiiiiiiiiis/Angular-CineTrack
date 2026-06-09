@@ -3,9 +3,20 @@
   [class.active]="active()"
   [appHighlightFavorite]="track().favorite"
   (click)="select.emit(track())">
+  <button
+    class="delete-btn"
+    type="button"
+    title="Supprimer"
+    (click)="$event.stopPropagation(); remove.emit(track())">
+    ✕
+  </button>
   <img [src]="track().coverUrl" [alt]="track().title" />
   <h3>{{ track().title }}</h3>
   <p>{{ track().artist }}</p>
+
+  <p class="rating">
+    <span class="star">★</span> {{ track().rating }}<span class="max">/10</span>
+  </p>
 
   <div class="progress">
     <span class="time">{{ 0 | durationFormat }}</span>

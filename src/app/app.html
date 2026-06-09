@@ -9,4 +9,4 @@
   <app-track-form (add)="addTrack($event)" />
 }
 
-<app-track-list [tracks]="tracks()" />
+<app-track-list [tracks]="tracks()" (remove)="removeTrack($event)" />

@@ -85,4 +85,9 @@ export class App {
     // Referme le formulaire une fois le morceau ajouté.
     this.showForm.set(false);
   }
+
+  // Supprime le morceau correspondant à l'id (met à jour le signal).
+  protected removeTrack(id: number) {
+    this.tracks.update((list) => list.filter((t) => t.id !== id));
+  }
 }
