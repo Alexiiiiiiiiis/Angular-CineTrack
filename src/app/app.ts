@@ -1,10 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { TrackList } from './track-list/track-list';
+import { TrackForm, TrackFormValue } from './track-form/track-form';
 import { Track } from './models/track';
 
 @Component({
   selector: 'app-root',
-  imports: [TrackList],
+  imports: [TrackList, TrackForm],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
@@ -60,4 +61,23 @@ export class App {
       coverUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Maurice_Ravel_1925.jpg/330px-Maurice_Ravel_1925.jpg',
     },
   ]);
+
+  // Reçoit le morceau valide du formulaire et met à jour le signal (update).
+  protected addTrack(value: TrackFormValue) {
+    this.tracks.update((list) => [
+      ...list,
+      {
+        id: Math.max(0, ...list.map((t) => t.id)) + 1,
+        title: value.title,
+        artist: value.artist,
+        rating: value.rating,
+        album: '—',
+        genre: 'Inconnu',
+        durationSeconds: 0,
+        year: new Date().getFullYear(),
+        favorite: false,
+        coverUrl: `https://picsum.photos/seed/${Date.now()}/300`,
+      },
+    ]);
+  }
 }

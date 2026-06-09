@@ -41,6 +41,12 @@
   font-size: 0.875rem;
 }
 
+.duration {
+  margin: 0;
+  color: #888;
+  font-size: 0.8rem;
+}
+
 .badge {
   align-self: flex-start;
   padding: 0.15rem 0.5rem;
@@ -49,4 +55,16 @@
   color: #fff;
   font-size: 0.75rem;
   font-weight: 600;
+}
+
+.badge.gold {
+  background: #f0a500;
+}
+
+.badge.muted {
+  background: #b2b2c0;
+}
+
+.badge.playing {
+  background: #00b894;
 }

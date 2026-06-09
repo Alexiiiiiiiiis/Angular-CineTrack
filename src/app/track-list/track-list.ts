@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { TrackCard } from '../track-card/track-card';
 import { Track } from '../models/track';
 
@@ -14,4 +14,17 @@ export class TrackList {
   tracks = input.required<Track[]>();
   // Mémorise l'id de la carte actuellement active.
   protected selectedId = signal<number | null>(null);
+  // Terme de recherche saisi par l'utilisateur.
+  protected searchTerm = signal('');
+
+  // Valeur DÉRIVÉE : recalculée automatiquement dès que searchTerm ou tracks change.
+  protected filteredTracks = computed(() => {
+    const term = this.searchTerm().toLowerCase().trim();
+    if (!term) return this.tracks();
+    return this.tracks().filter(
+      (t) =>
+        t.title.toLowerCase().includes(term) ||
+        t.artist.toLowerCase().includes(term),
+    );
+  });
 }
