@@ -6,6 +6,30 @@
   font-family: system-ui, sans-serif;
 }
 
-h1 {
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   margin-bottom: 1.5rem;
+}
+
+h1 {
+  margin: 0;
+}
+
+.add-btn {
+  padding: 0.6rem 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  background: #6c5ce7;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.add-btn:hover {
+  background: #5a4bd4;
 }

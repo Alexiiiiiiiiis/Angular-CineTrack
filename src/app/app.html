@@ -1,5 +1,12 @@
-<h1>CinéTrack 🎵</h1>
+<header class="topbar">
+  <h1>CinéTrack 🎵</h1>
+  <button class="add-btn" (click)="showForm.set(!showForm())">
+    {{ showForm() ? '✕ Fermer' : '➕ Ajouter un morceau' }}
+  </button>
+</header>
 
-<app-track-form (add)="addTrack($event)" />
+@if (showForm()) {
+  <app-track-form (add)="addTrack($event)" />
+}
 
 <app-track-list [tracks]="tracks()" />

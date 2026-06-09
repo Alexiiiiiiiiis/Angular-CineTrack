@@ -10,6 +10,9 @@ import { Track } from './models/track';
   styleUrl: './app.css',
 })
 export class App {
+  // Affiche / masque le formulaire d'ajout.
+  protected showForm = signal(false);
+
   // Le parent détient les données (en dur pour l'instant, l'API arrive en J3).
   protected tracks = signal<Track[]>([
     {
@@ -79,5 +82,7 @@ export class App {
         coverUrl: `https://picsum.photos/seed/${Date.now()}/300`,
       },
     ]);
+    // Referme le formulaire une fois le morceau ajouté.
+    this.showForm.set(false);
   }
 }
