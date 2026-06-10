@@ -1,0 +1,18 @@
+<div class="server-search">
+  <input
+    class="search"
+    type="search"
+    [value]="term()"
+    (input)="term.set($any($event.target).value)"
+    placeholder="Recherche serveur (API)…" />
+
+  @if (term()) {
+    <ul class="results">
+      @for (t of results(); track t.id) {
+        <li>{{ t.title }} — <span class="artist">{{ t.artist }}</span></li>
+      } @empty {
+        <li class="empty">Aucun résultat.</li>
+      }
+    </ul>
+  }
+</div>

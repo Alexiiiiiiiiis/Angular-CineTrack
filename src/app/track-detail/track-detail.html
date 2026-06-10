@@ -1,0 +1,17 @@
+<a routerLink="/tracks" class="back">← Retour à la bibliothèque</a>
+
+@if (track(); as t) {
+  <article class="detail">
+    <img [src]="t.coverUrl" [alt]="t.title" />
+    <div class="info">
+      <h2>{{ t.title }} — {{ t.artist }}</h2>
+      <p>{{ t.album }} ({{ t.year }})</p>
+      <p class="meta">
+        {{ t.genre }} · {{ t.durationSeconds | durationFormat }} · ★ {{ t.rating }}/10
+      </p>
+      <a [routerLink]="['/tracks', t.id, 'edit']" class="edit">✏️ Modifier</a>
+    </div>
+  </article>
+} @else {
+  <p class="loading">Chargement…</p>
+}

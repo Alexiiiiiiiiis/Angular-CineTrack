@@ -1,0 +1,23 @@
+@if (auth.isLoggedIn()) {
+  <div class="logged">
+    <span class="ok">✅ Connecté — token JWT prêt</span>
+    <button type="button" (click)="logout()">Se déconnecter</button>
+  </div>
+} @else {
+  <form class="login" (submit)="onSubmit($event)">
+    <input
+      type="email"
+      [value]="email()"
+      (input)="email.set($any($event.target).value)"
+      placeholder="Email" />
+    <input
+      type="password"
+      [value]="password()"
+      (input)="password.set($any($event.target).value)"
+      placeholder="Mot de passe" />
+    <button type="submit">Se connecter</button>
+    @if (error()) {
+      <small class="error">{{ error() }}</small>
+    }
+  </form>
+}
