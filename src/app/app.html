@@ -1,12 +1,12 @@
 <header class="topbar">
-  <h1>CinéTrack 🎵</h1>
-  <button class="add-btn" (click)="showForm.set(!showForm())">
-    {{ showForm() ? '✕ Fermer' : '➕ Ajouter un morceau' }}
-  </button>
+  <a routerLink="/tracks" class="brand"><h1>CinéTrack 🎵</h1></a>
+  <nav class="nav">
+    <a routerLink="/tracks" routerLinkActive="active">Bibliothèque</a>
+    <a routerLink="/tracks/new" routerLinkActive="active">➕ Ajouter</a>
+  </nav>
+  <app-login />
 </header>
 
-@if (showForm()) {
-  <app-track-form (add)="addTrack($event)" />
-}
-
-<app-track-list [tracks]="tracks()" (remove)="removeTrack($event)" />
+<main class="content">
+  <router-outlet />
+</main>

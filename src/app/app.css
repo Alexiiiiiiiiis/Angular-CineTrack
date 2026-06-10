@@ -1,35 +1,47 @@
 :host {
   display: block;
-  max-width: 960px;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 1.5rem 1rem 4rem;
   font-family: system-ui, sans-serif;
 }
 
 .topbar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
   gap: 1rem;
   margin-bottom: 1.5rem;
 }
 
-h1 {
+.brand {
+  text-decoration: none;
+  color: inherit;
+}
+
+.brand h1 {
   margin: 0;
 }
 
-.add-btn {
-  padding: 0.6rem 1.1rem;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #fff;
-  background: #6c5ce7;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.15s ease;
+.nav {
+  display: flex;
+  gap: 1rem;
+  margin-left: 1rem;
 }
 
-.add-btn:hover {
-  background: #5a4bd4;
+.nav a {
+  text-decoration: none;
+  color: #555;
+  font-weight: 600;
+  padding: 0.35rem 0.6rem;
+  border-radius: 8px;
+}
+
+.nav a.active {
+  background: #efeafe;
+  color: #6c5ce7;
+}
+
+.topbar app-login {
+  margin-left: auto;
 }
