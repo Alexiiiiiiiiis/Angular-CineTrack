@@ -1,23 +1,31 @@
-@if (auth.isLoggedIn()) {
-  <div class="logged">
-    <span class="ok">✅ Connecté — token JWT prêt</span>
-    <button type="button" (click)="logout()">Se déconnecter</button>
-  </div>
-} @else {
-  <form class="login" (submit)="onSubmit($event)">
-    <input
-      type="email"
-      [value]="email()"
-      (input)="email.set($any($event.target).value)"
-      placeholder="Email" />
-    <input
-      type="password"
-      [value]="password()"
-      (input)="password.set($any($event.target).value)"
-      placeholder="Mot de passe" />
-    <button type="submit">Se connecter</button>
-    @if (error()) {
-      <small class="error">{{ error() }}</small>
-    }
-  </form>
-}
+<form class="login-card" novalidate (submit)="onSubmit($event)">
+  <h2>Connexion</h2>
+
+  <label for="email">Email</label>
+  <input
+    id="email"
+    type="email"
+    [formField]="loginForm.email"
+    [class.invalid]="(submitted() || loginForm.email().touched()) && !loginForm.email().valid()" />
+  @if ((submitted() || loginForm.email().touched()) && !loginForm.email().valid()) {
+    <small class="error">{{ loginForm.email().errors()[0]?.message }}</small>
+  }
+
+  <label for="password">Mot de passe</label>
+  <input
+    id="password"
+    type="password"
+    [formField]="loginForm.password"
+    [class.invalid]="(submitted() || loginForm.password().touched()) && !loginForm.password().valid()" />
+  @if ((submitted() || loginForm.password().touched()) && !loginForm.password().valid()) {
+    <small class="error">{{ loginForm.password().errors()[0]?.message }}</small>
+  }
+
+  <button type="submit">Se connecter</button>
+
+  @if (serverError()) {
+    <small class="error center">{{ serverError() }}</small>
+  }
+
+  <p class="hint">Démo : <strong>demo&#64;ipssi.fr</strong> / <strong>password123</strong></p>
+</form>

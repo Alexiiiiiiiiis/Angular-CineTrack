@@ -1,32 +1,41 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { email, form, FormField, required } from '@angular/forms/signals';
 import { AuthService } from '../services/auth';
 
 @Component({
   selector: 'app-login',
+  imports: [FormField],
   templateUrl: './login.html',
   styleUrl: './login.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Login {
-  protected auth = inject(AuthService);
+  private auth = inject(AuthService);
   private router = inject(Router);
 
-  // Champs du formulaire (pré-remplis avec le compte de démo).
-  protected email = signal('demo@ipssi.fr');
-  protected password = signal('password123');
-  protected error = signal<string | null>(null);
+  protected model = signal({ email: '', password: '' });
+
+  protected loginForm = form(this.model, (path) => {
+    required(path.email, { message: "L'email est requis" });
+    email(path.email, { message: 'Email invalide' });
+    required(path.password, { message: 'Le mot de passe est requis' });
+  });
+
+  // Passe à true au 1er envoi : affiche les erreurs même sans blur.
+  protected submitted = signal(false);
+  protected serverError = signal<string | null>(null);
 
   onSubmit(event: Event) {
     event.preventDefault();
-    this.error.set(null);
-    this.auth.login(this.email(), this.password()).subscribe({
-      next: () => this.router.navigate(['/tracks']),
-      error: () => this.error.set('Identifiants invalides'),
-    });
-  }
+    this.submitted.set(true);
+    this.serverError.set(null);
+    if (!this.loginForm().valid()) return;
 
-  logout() {
-    this.auth.logout();
+    const { email, password } = this.model();
+    this.auth.login(email, password).subscribe({
+      next: () => this.router.navigate(['/tracks']),
+      error: () => this.serverError.set('Identifiants invalides'),
+    });
   }
 }

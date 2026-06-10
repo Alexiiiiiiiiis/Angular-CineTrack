@@ -64,6 +64,49 @@
   color: var(--primary);
 }
 
-.topbar app-login {
+.auth {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
   margin-left: auto;
+}
+
+.auth .ok {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(0, 184, 148, 0.12);
+  color: #009e7f;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.auth button {
+  padding: 0.5rem 0.9rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--primary);
+  border: none;
+  border-radius: 10px;
+}
+
+.auth button:hover {
+  background: var(--primary-dark);
+}
+
+.auth .login-link {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: #fff;
+  background: var(--primary);
+  border-radius: 10px;
+}
+
+.auth .login-link:hover {
+  background: var(--primary-dark);
 }

@@ -4,7 +4,15 @@
     <a routerLink="/tracks" routerLinkActive="active">Bibliothèque</a>
     <a routerLink="/tracks/new" routerLinkActive="active">➕ Ajouter</a>
   </nav>
-  <app-login />
+
+  <div class="auth">
+    @if (auth.isLoggedIn()) {
+      <span class="ok">✅ Connecté</span>
+      <button type="button" (click)="auth.logout()">Se déconnecter</button>
+    } @else {
+      <a routerLink="/login" class="login-link">Se connecter</a>
+    }
+  </div>
 </header>
 
 <main class="content">
