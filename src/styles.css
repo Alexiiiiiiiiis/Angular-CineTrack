@@ -1,1 +1,68 @@
-/* You can add global styles to this file, and also import other style files */
+/* ===== Design tokens ===== */
+:root {
+  --primary: #6c5ce7;
+  --primary-dark: #5a4bd4;
+  --primary-soft: #efeafe;
+  --accent: #e84393;
+  --green: #00b894;
+  --gold: #f0a500;
+  --ink: #1a1a2e;
+  --muted: #6b6b80;
+  --line: #e7e7ef;
+  --card: #ffffff;
+  --radius: 14px;
+  --shadow-sm: 0 1px 3px rgba(17, 12, 46, 0.06);
+  --shadow-md: 0 10px 30px rgba(17, 12, 46, 0.10);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background:
+    radial-gradient(1100px 520px at 85% -10%, #efeafe 0%, transparent 60%),
+    radial-gradient(900px 480px at -10% 0%, #fde7f1 0%, transparent 55%),
+    #f6f6fb;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== Champs & boutons (base commune) ===== */
+input,
+button {
+  font: inherit;
+}
+
+input[type="search"],
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"] {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  font-size: 0.95rem;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.18);
+}
+
+button {
+  cursor: pointer;
+}

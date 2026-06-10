@@ -2,45 +2,55 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  background: #fff;
+  overflow: hidden;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--card);
   cursor: pointer;
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease,
-    border-color 0.15s ease;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
 }
 
 .card.active {
-  border-color: #00b894;
-  box-shadow: 0 0 0 2px #00b894;
+  border-color: var(--green);
+  box-shadow: 0 0 0 2px var(--green), var(--shadow-md);
+}
+
+/* Pochette plein cadre */
+.card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.card:hover img {
+  transform: scale(1.05);
 }
 
 .delete-btn {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 10px;
+  right: 10px;
   z-index: 2;
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   display: grid;
   place-items: center;
   padding: 0;
   border: none;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.5);
   color: #fff;
   font-size: 0.85rem;
   line-height: 1;
-  cursor: pointer;
+  backdrop-filter: blur(2px);
   opacity: 0;
   transition: opacity 0.15s ease, background 0.15s ease;
 }
@@ -53,33 +63,32 @@
   background: #d63031;
 }
 
-.card img {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
+/* Texte */
 .card h3 {
   margin: 0;
+  padding: 0.85rem 0.9rem 0;
   font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.25;
 }
 
-.card p {
-  margin: 0;
-  color: #666;
-  font-size: 0.875rem;
+.card > p {
+  margin: 0.15rem 0 0;
+  padding: 0 0.9rem;
+  color: var(--muted);
+  font-size: 0.85rem;
 }
 
 .rating {
-  margin: 0;
+  margin: 0.5rem 0 0 !important;
+  padding: 0 0.9rem;
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 700;
   color: #555;
 }
 
 .rating .star {
-  color: #f0a500;
+  color: var(--gold);
 }
 
 .rating .max {
@@ -91,10 +100,11 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  padding: 0.55rem 0.9rem 0;
 }
 
 .progress .time {
-  color: #888;
+  color: #999;
   font-size: 0.72rem;
   font-variant-numeric: tabular-nums;
   min-width: 2.4em;
@@ -105,7 +115,7 @@
   flex: 1;
   height: 4px;
   border-radius: 999px;
-  background: #d9d9e0;
+  background: #e4e4ec;
   overflow: hidden;
 }
 
@@ -113,27 +123,26 @@
   height: 100%;
   width: 0%;
   border-radius: 999px;
-  background: #1db954; /* vert Spotify */
+  background: var(--green);
 }
 
-/* La barre se remplit quand la carte est en lecture */
 .card.active .progress .fill {
   width: 30%;
-  background: #1db954;
 }
 
 .badge {
   align-self: flex-start;
-  padding: 0.15rem 0.5rem;
+  margin: 0.6rem 0.9rem 0.9rem;
+  padding: 0.22rem 0.6rem;
   border-radius: 999px;
-  background: #6c5ce7;
+  background: var(--primary);
   color: #fff;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: 0.72rem;
+  font-weight: 700;
 }
 
 .badge.gold {
-  background: #f0a500;
+  background: var(--gold);
 }
 
 .badge.muted {
@@ -141,5 +150,5 @@
 }
 
 .badge.playing {
-  background: #00b894;
+  background: var(--green);
 }

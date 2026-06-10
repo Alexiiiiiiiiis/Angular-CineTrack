@@ -6,22 +6,33 @@
 }
 
 .login input {
+  width: auto;
+  flex: 1 1 9rem;
+  min-width: 0;
   padding: 0.5rem 0.7rem;
-  font-size: 0.9rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  font-size: 0.88rem;
 }
 
 .login button,
 .logged button {
-  padding: 0.5rem 0.9rem;
+  padding: 0.55rem 1rem;
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 700;
   color: #fff;
-  background: #6c5ce7;
+  background: var(--primary);
   border: none;
-  border-radius: 8px;
-  cursor: pointer;
+  border-radius: 10px;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.login button:hover,
+.logged button:hover {
+  background: var(--primary-dark);
+}
+
+.login button:active,
+.logged button:active {
+  transform: translateY(1px);
 }
 
 .logged {
@@ -31,12 +42,19 @@
 }
 
 .logged .ok {
-  color: #00b894;
-  font-weight: 600;
-  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(0, 184, 148, 0.12);
+  color: #009e7f;
+  font-weight: 700;
+  font-size: 0.85rem;
 }
 
 .error {
   color: #d63031;
   font-size: 0.85rem;
+  width: 100%;
 }
