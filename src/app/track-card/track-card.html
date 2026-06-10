@@ -3,13 +3,15 @@
   [class.active]="active()"
   [appHighlightFavorite]="track().favorite"
   (click)="select.emit(track())">
-  <button
-    class="delete-btn"
-    type="button"
-    title="Supprimer"
-    (click)="$event.stopPropagation(); remove.emit(track())">
-    ✕
-  </button>
+  @if (canDelete()) {
+    <button
+      class="delete-btn"
+      type="button"
+      title="Supprimer"
+      (click)="$event.stopPropagation(); remove.emit(track())">
+      ✕
+    </button>
+  }
   <img [src]="track().coverUrl" [alt]="track().title" />
   <h3>{{ track().title }}</h3>
   <p>{{ track().artist }}</p>

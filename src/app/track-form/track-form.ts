@@ -1,5 +1,8 @@
-import { ChangeDetectionStrategy, Component, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { form, FormField, max, min, required } from '@angular/forms/signals';
+import { TrackService } from '../services/track';
+import { Track } from '../models/track';
 
 // Modèle typé du formulaire (les champs saisis par l'utilisateur).
 export interface TrackFormValue {
@@ -16,8 +19,13 @@ export interface TrackFormValue {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TrackForm {
-  // Remonte le morceau valide au parent.
-  add = output<TrackFormValue>();
+  private trackService = inject(TrackService);
+  private router = inject(Router);
+
+  // Paramètre de route optionnel : présent en mode édition (tracks/:id/edit).
+  id = input<number | undefined>(undefined, {
+    transform: (v: unknown) => (v == null || v === '' ? undefined : Number(v)),
+  });
 
   protected model = signal<TrackFormValue>({ title: '', artist: '', rating: 5 });
 
@@ -29,13 +37,47 @@ export class TrackForm {
     max(path.rating, 10, { message: 'Maximum 10' });
   });
 
+  constructor() {
+    // En mode édition : charger le morceau et pré-remplir le formulaire.
+    effect(() => {
+      const id = this.id();
+      if (id != null) {
+        this.trackService.getTrack(id).subscribe((t) =>
+          this.model.set({ title: t.title, artist: t.artist, rating: t.rating }),
+        );
+      }
+    });
+  }
+
+  protected isEdit() {
+    return this.id() != null;
+  }
+
   onSubmit(event: Event) {
     event.preventDefault();
-    // Soumission VALIDE uniquement.
-    if (this.trackForm().valid()) {
-      this.add.emit(this.model());
-      // Réinitialise le formulaire après ajout.
-      this.model.set({ title: '', artist: '', rating: 5 });
+    if (!this.trackForm().valid()) return;
+
+    const value = this.model();
+    const id = this.id();
+
+    if (id != null) {
+      // PATCH /tracks/:id (modification partielle)
+      const changes: Partial<Track> = value;
+      this.trackService.update(id, changes).subscribe(() => this.router.navigate(['/tracks']));
+    } else {
+      // POST /tracks (création) — title & artist requis côté API
+      const payload: Omit<Track, 'id'> = {
+        title: value.title,
+        artist: value.artist,
+        rating: value.rating,
+        album: '—',
+        genre: 'Inconnu',
+        durationSeconds: 0,
+        year: new Date().getFullYear(),
+        favorite: false,
+        coverUrl: `https://picsum.photos/seed/${Date.now()}/300`,
+      };
+      this.trackService.create(payload).subscribe(() => this.router.navigate(['/tracks']));
     }
   }
 }

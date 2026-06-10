@@ -15,6 +15,8 @@ export class TrackCard {
   track = input.required<Track>();
   // Indique si cette carte est la carte active.
   active = input(false);
+  // Autorise l'affichage du bouton supprimer (uniquement si connecté).
+  canDelete = input(false);
   // Émet le morceau quand l'utilisateur clique sur la carte.
   select = output<Track>();
   // Émet le morceau quand l'utilisateur veut le supprimer.

@@ -1,7 +1,11 @@
+<!-- F9 : recherche côté serveur -->
+<app-track-search />
+
+<!-- Recherche client (J2) -->
 <input
   class="search"
   type="search"
-  placeholder="Rechercher un titre ou un artiste…"
+  placeholder="Filtrer la bibliothèque (titre ou artiste)…"
   [value]="searchTerm()"
   (input)="searchTerm.set($any($event.target).value)" />
 
@@ -9,9 +13,9 @@
   @for (track of filteredTracks(); track track.id) {
     <app-track-card
       [track]="track"
-      [active]="track.id === selectedId()"
-      (select)="selectedId.set($event.id)"
-      (remove)="remove.emit($event.id)" />
+      [canDelete]="auth.isLoggedIn()"
+      (select)="openDetail($event.id)"
+      (remove)="removeTrack($event.id)" />
   } @empty {
     <p>Aucun résultat pour « {{ searchTerm() }} ».</p>
   }

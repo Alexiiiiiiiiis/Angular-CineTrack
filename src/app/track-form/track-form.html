@@ -1,5 +1,5 @@
 <form class="track-form" novalidate (submit)="onSubmit($event)">
-  <h2>Ajouter un morceau</h2>
+  <h2>{{ isEdit() ? 'Modifier le morceau' : 'Ajouter un morceau' }}</h2>
 
   <label>
     Titre
@@ -25,5 +25,7 @@
     <small class="error">{{ trackForm.rating().errors()[0]?.message }}</small>
   }
 
-  <button type="submit" [disabled]="!trackForm().valid()">Enregistrer</button>
+  <button type="submit" [disabled]="!trackForm().valid()">
+    {{ isEdit() ? 'Enregistrer les modifications' : 'Créer' }}
+  </button>
 </form>
