@@ -21,4 +21,6 @@ export class TrackCard {
   select = output<Track>();
   // Émet le morceau quand l'utilisateur veut le supprimer.
   remove = output<Track>();
+  // Émet le morceau quand l'utilisateur bascule le statut favori.
+  toggleFav = output<Track>();
 }

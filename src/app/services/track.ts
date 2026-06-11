@@ -3,13 +3,27 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Track } from '../models/track';
 import { environment } from '../../environments/environment';
 
+// Options de tri / filtrage côté serveur.
+export interface TrackQuery {
+  sort?: 'title' | 'artist' | 'year' | 'rating' | 'durationSeconds';
+  order?: 'asc' | 'desc';
+  favorite?: boolean;
+}
+
 @Injectable({ providedIn: 'root' })
 export class TrackService {
   private http = inject(HttpClient);
   private baseUrl = `${environment.apiUrl}/tracks`;
 
-  getTracks() {
-    return this.http.get<Track[]>(this.baseUrl);
+  getTracks(query: TrackQuery = {}) {
+    let params = new HttpParams();
+    if (query.sort) {
+      params = params.set('_sort', query.sort).set('_order', query.order ?? 'asc');
+    }
+    if (query.favorite) {
+      params = params.set('favorite', 'true');
+    }
+    return this.http.get<Track[]>(this.baseUrl, { params });
   }
 
   getTrack(id: number) {

@@ -7,16 +7,51 @@
   type="search"
   placeholder="Filtrer la bibliothèque (titre ou artiste)…"
   [value]="searchTerm()"
-  (input)="searchTerm.set($any($event.target).value)" />
+  (input)="onSearch($any($event.target).value)" />
+
+<!-- Barre d'outils : tri / ordre / favoris / compteur (tri & filtre côté serveur) -->
+<div class="toolbar">
+  <label class="sort">
+    Trier&nbsp;:
+    <select [value]="sortBy()" (change)="setSort($any($event.target).value)">
+      <option value="title">Titre</option>
+      <option value="artist">Artiste</option>
+      <option value="year">Année</option>
+      <option value="rating">Note</option>
+      <option value="durationSeconds">Durée</option>
+    </select>
+  </label>
+
+  <button type="button" class="order" (click)="toggleOrder()" [title]="sortOrder() === 'asc' ? 'Croissant' : 'Décroissant'">
+    {{ sortOrder() === 'asc' ? '↑' : '↓' }}
+  </button>
+
+  <button type="button" class="fav-filter" [class.on]="favoritesOnly()" (click)="toggleFavoritesOnly()">
+    {{ favoritesOnly() ? '♥ Favoris' : '♡ Favoris' }}
+  </button>
+
+  <span class="count">{{ filteredTracks().length }} morceau(x)</span>
+</div>
 
 <section class="grid">
-  @for (track of filteredTracks(); track track.id) {
+  @for (track of pagedTracks(); track track.id) {
     <app-track-card
       [track]="track"
       [canDelete]="auth.isLoggedIn()"
       (select)="openDetail($event.id)"
+      (toggleFav)="toggleFavorite($event)"
       (remove)="removeTrack($event.id)" />
   } @empty {
-    <p>Aucun résultat pour « {{ searchTerm() }} ».</p>
+    <p>Aucun résultat.</p>
   }
 </section>
+
+@if (totalPages() > 1) {
+  <nav class="pagination">
+    <button type="button" (click)="goTo(currentPage() - 1)" [disabled]="currentPage() === 1">‹</button>
+    @for (p of pages(); track p) {
+      <button type="button" [class.active]="p === currentPage()" (click)="goTo(p)">{{ p }}</button>
+    }
+    <button type="button" (click)="goTo(currentPage() + 1)" [disabled]="currentPage() === totalPages()">›</button>
+  </nav>
+}

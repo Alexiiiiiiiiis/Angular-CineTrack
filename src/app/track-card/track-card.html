@@ -5,6 +5,14 @@
   (click)="select.emit(track())">
   @if (canDelete()) {
     <button
+      class="fav-btn"
+      type="button"
+      [class.on]="track().favorite"
+      [title]="track().favorite ? 'Retirer des favoris' : 'Ajouter aux favoris'"
+      (click)="$event.stopPropagation(); toggleFav.emit(track())">
+      {{ track().favorite ? '♥' : '♡' }}
+    </button>
+    <button
       class="delete-btn"
       type="button"
       title="Supprimer"
