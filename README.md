@@ -84,6 +84,7 @@ src/app/
 
 > Tous les composants, services, pipes, directives, guards et intercepteurs ont été générés via la **CLI** (`ng generate`), jamais à la main.
 
+
 ---
 
 ## 🗺️ Routes
