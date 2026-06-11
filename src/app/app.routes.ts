@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth-guard';
+import { favoritesFeatureGuard } from './guards/favorites-feature-guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'tracks', pathMatch: 'full' },
@@ -20,6 +21,12 @@ export const routes: Routes = [
     path: 'tracks/:id/edit',
     canActivate: [authGuard],
     loadComponent: () => import('./track-form/track-form').then((m) => m.TrackForm),
+  },
+  {
+    // Feature flag d'abord (sinon -> /tracks), puis auth (sinon -> /login).
+    path: 'favorites',
+    canActivate: [favoritesFeatureGuard, authGuard],
+    loadComponent: () => import('./favorites/favorites').then((m) => m.Favorites),
   },
   {
     path: 'login',

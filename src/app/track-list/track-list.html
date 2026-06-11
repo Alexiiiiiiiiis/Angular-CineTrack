@@ -26,9 +26,11 @@
     {{ sortOrder() === 'asc' ? '↑' : '↓' }}
   </button>
 
-  <button type="button" class="fav-filter" [class.on]="favoritesOnly()" (click)="toggleFavoritesOnly()">
-    {{ favoritesOnly() ? '♥ Favoris' : '♡ Favoris' }}
-  </button>
+  @if (favoritesEnabled) {
+    <button type="button" class="fav-filter" [class.on]="favoritesOnly()" (click)="toggleFavoritesOnly()">
+      {{ favoritesOnly() ? '♥ Favoris' : '♡ Favoris' }}
+    </button>
+  }
 
   <span class="count">{{ filteredTracks().length }} morceau(x)</span>
 </div>
@@ -38,6 +40,7 @@
     <app-track-card
       [track]="track"
       [canDelete]="auth.isLoggedIn()"
+      [favoritesEnabled]="favoritesEnabled"
       (select)="openDetail($event.id)"
       (toggleFav)="toggleFavorite($event)"
       (remove)="removeTrack($event.id)" />

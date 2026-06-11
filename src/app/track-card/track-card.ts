@@ -17,6 +17,8 @@ export class TrackCard {
   active = input(false);
   // Autorise l'affichage du bouton supprimer (uniquement si connecté).
   canDelete = input(false);
+  // Affiche l'action favori (piloté par le feature flag Favoris).
+  favoritesEnabled = input(true);
   // Émet le morceau quand l'utilisateur clique sur la carte.
   select = output<Track>();
   // Émet le morceau quand l'utilisateur veut le supprimer.

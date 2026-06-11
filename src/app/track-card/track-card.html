@@ -3,7 +3,7 @@
   [class.active]="active()"
   [appHighlightFavorite]="track().favorite"
   (click)="select.emit(track())">
-  @if (canDelete()) {
+  @if (canDelete() && favoritesEnabled()) {
     <button
       class="fav-btn"
       type="button"
@@ -12,6 +12,8 @@
       (click)="$event.stopPropagation(); toggleFav.emit(track())">
       {{ track().favorite ? '♥' : '♡' }}
     </button>
+  }
+  @if (canDelete()) {
     <button
       class="delete-btn"
       type="button"

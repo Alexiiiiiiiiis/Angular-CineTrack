@@ -58,12 +58,15 @@ src/app/
 ├── models/track.ts              # Interface Track
 ├── services/
 │   ├── track.ts                 # TrackService : get (tri/filtre) / search / create / update / remove
+│   ├── favorite.ts              # FavoriteService : endpoints /favorites (get / add / remove)
 │   ├── auth.ts                  # AuthService : login JWT, session persistante (localStorage)
 │   └── toast.ts                 # ToastService : notifications (signal)
 ├── interceptors/
 │   ├── auth-interceptor.ts      # ajoute Authorization: Bearer
 │   └── error-interceptor.ts     # erreurs HTTP centralisées -> toast
-├── guards/auth-guard.ts         # CanActivateFn (protège les écritures)
+├── guards/
+│   ├── auth-guard.ts            # CanActivateFn (protège les écritures + /favorites)
+│   └── favorites-feature-guard.ts # feature flag : /favorites -> /tracks si désactivé
 ├── pipes/duration-format-pipe.ts# secondes -> m:ss (pipe pur)
 ├── directives/highlight-favorite.ts # contour doré sur les favoris
 ├── track-card/                  # carte morceau (favori, suppression, badge)
@@ -71,6 +74,7 @@ src/app/
 ├── track-detail/                # fiche détail (route /tracks/:id)
 ├── track-form/                  # création / édition (routes protégées)
 ├── track-search/                # recherche serveur (RxJS)
+├── favorites/                   # page /favorites (réutilise TrackCard)
 ├── login/                       # connexion JWT (formulaire validé)
 ├── toasts/                      # affichage des notifications
 ├── app.routes.ts                # définition des routes (lazy)
@@ -91,6 +95,7 @@ src/app/
 | `/tracks/new` | `TrackForm` (création) | 🔒 connecté |
 | `/tracks/:id` | `TrackDetail` | public |
 | `/tracks/:id/edit` | `TrackForm` (édition) | 🔒 connecté |
+| `/favorites` | `Favorites` | 🔒 connecté + feature flag |
 | `/login` | `Login` | public |
 
 Toutes les routes sont en **lazy loading** (`loadComponent`). Le paramètre `:id` alimente directement l'`input()` du composant grâce à `withComponentInputBinding()`.
@@ -122,13 +127,22 @@ Toutes les routes sont en **lazy loading** (`loadComponent`). Le paramètre `:id
 
 ---
 
-## ✨ Fonctionnalités bonus (au-delà du J1→J4)
+## ♥ Fonctionnalité Favoris
+
+Fonctionnalité complète, branchée sur les endpoints dédiés du backend (`GET /favorites`, `POST` / `DELETE /favorites/:trackId`) et **pilotée par un feature flag**.
+
+- **Action favori sur chaque carte** — bouton cœur (♡ / ♥), réservé aux utilisateurs connectés ; le clic ne propage pas vers le détail (`stopPropagation`).
+- **Page dédiée `/favorites`** — protégée par le guard d'auth, réutilise `TrackCard`, état local en `signal`. Retirer un favori depuis cette page le fait disparaître de la liste (uniquement après succès API).
+- **Lien de navigation `♥ Favoris`** — visible seulement si l'utilisateur est connecté **et** la fonctionnalité activée.
+- **Feature flag** (`environment.features.favorites`) — à `true` : lien + badges + route actifs ; à `false` : lien et badges masqués, `/favorites` redirige vers `/tracks` (via `favoritesFeatureGuard`).
+- **Service dédié** `FavoriteService` — aucun appel `HttpClient` dans les templates ; le champ `favorite` du `Track` reste la source de vérité de l'état.
+
+## ✨ Autres fonctionnalités bonus (au-delà du J1→J4)
 
 Ajouts personnels, branchés sur l'API et pilotés par signals :
 
 - **Tri côté serveur** — par titre / artiste / année / note / durée (`?_sort=&_order=`), avec inversion croissant/décroissant.
 - **Filtre favoris** — n'afficher que les favoris (`?favorite=true`).
-- **Toggle favori** — bouton cœur sur la carte → `PATCH /tracks/:id` (réservé aux connectés), met à jour la liste.
 - **Pagination** — 8 morceaux par page, valeurs dérivées par `computed()`.
 - **Compteur** de résultats.
 - **Notifications toast** — retours visuels (succès/erreur) auto-disparition, branchés sur l'intercepteur d'erreurs ; `ToastService` (signal) + composant `Toasts`.

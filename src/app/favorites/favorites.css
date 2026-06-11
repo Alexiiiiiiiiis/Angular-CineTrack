@@ -1,0 +1,28 @@
+.page-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.page-head h2 {
+  margin: 0;
+}
+
+.count {
+  color: var(--muted, #888);
+  font-size: 0.9rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.empty {
+  color: var(--muted, #888);
+  padding: 2rem 0;
+  text-align: center;
+}

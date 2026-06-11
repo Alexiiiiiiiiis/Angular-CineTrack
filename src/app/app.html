@@ -3,6 +3,9 @@
   <nav class="nav">
     <a routerLink="/tracks" routerLinkActive="active">Bibliothèque</a>
     <a routerLink="/tracks/new" routerLinkActive="active">➕ Ajouter</a>
+    @if (favoritesEnabled && auth.isLoggedIn()) {
+      <a routerLink="/favorites" routerLinkActive="active">♥ Favoris</a>
+    }
   </nav>
 
   <div class="auth">

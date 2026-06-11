@@ -5,9 +5,11 @@ import { switchMap } from 'rxjs';
 import { TrackCard } from '../track-card/track-card';
 import { TrackSearch } from '../track-search/track-search';
 import { TrackService, TrackQuery } from '../services/track';
+import { FavoriteService } from '../services/favorite';
 import { AuthService } from '../services/auth';
 import { ToastService } from '../services/toast';
 import { Track } from '../models/track';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-track-list',
@@ -18,10 +20,14 @@ import { Track } from '../models/track';
 })
 export class TrackList {
   private trackService = inject(TrackService);
+  private favoriteService = inject(FavoriteService);
   private router = inject(Router);
   // État d'auth : pilote l'affichage du bouton supprimer.
   protected auth = inject(AuthService);
   private toast = inject(ToastService);
+
+  // Feature flag Favoris (config simple) : pilote l'action cœur sur les cartes.
+  protected favoritesEnabled = environment.features.favorites;
 
   // Déclencheur de rechargement : on l'incrémente après une mutation.
   private reload = signal(0);
@@ -112,10 +118,14 @@ export class TrackList {
     this.router.navigate(['/tracks', id]);
   }
 
-  // Bascule le statut favori (PATCH protégé par JWT) puis rechargement.
+  // Bascule le statut favori via les endpoints /favorites (POST/DELETE,
+  // protégés par JWT) puis rechargement de la liste.
   protected toggleFavorite(track: Track) {
     const next = !track.favorite;
-    this.trackService.update(track.id, { favorite: next }).subscribe(() => {
+    const request = next
+      ? this.favoriteService.add(track.id)
+      : this.favoriteService.remove(track.id);
+    request.subscribe(() => {
       this.reload.update((n) => n + 1);
       this.toast.success(next ? 'Ajouté aux favoris' : 'Retiré des favoris');
     });
