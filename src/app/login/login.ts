@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { Router } from '@angular/router';
 import { email, form, FormField, required } from '@angular/forms/signals';
 import { AuthService } from '../services/auth';
+import { ToastService } from '../services/toast';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +14,7 @@ import { AuthService } from '../services/auth';
 export class Login {
   private auth = inject(AuthService);
   private router = inject(Router);
+  private toast = inject(ToastService);
 
   protected model = signal({ email: '', password: '' });
 
@@ -34,7 +36,10 @@ export class Login {
 
     const { email, password } = this.model();
     this.auth.login(email, password).subscribe({
-      next: () => this.router.navigate(['/tracks']),
+      next: () => {
+        this.toast.success(`Bienvenue ${this.auth.user()?.name ?? ''}`.trim());
+        this.router.navigate(['/tracks']);
+      },
       error: () => this.serverError.set('Identifiants invalides'),
     });
   }

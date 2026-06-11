@@ -1,0 +1,8 @@
+<div class="toasts">
+  @for (t of toast.toasts(); track t.id) {
+    <div class="toast" [class.error]="t.type === 'error'" (click)="toast.dismiss(t.id)">
+      <span class="icon">{{ t.type === 'error' ? '⚠️' : '✅' }}</span>
+      <span>{{ t.text }}</span>
+    </div>
+  }
+</div>

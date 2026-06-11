@@ -7,7 +7,7 @@
 
   <div class="auth">
     @if (auth.isLoggedIn()) {
-      <span class="ok">✅ Connecté</span>
+      <span class="ok">👤 {{ auth.user()?.name ?? 'Connecté' }}</span>
       <button type="button" (click)="auth.logout()">Se déconnecter</button>
     } @else {
       <a routerLink="/login" class="login-link">Se connecter</a>
@@ -18,3 +18,5 @@
 <main class="content">
   <router-outlet />
 </main>
+
+<app-toasts />

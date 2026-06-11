@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, effect, inject, input, signal } fro
 import { Router } from '@angular/router';
 import { form, FormField, max, min, required } from '@angular/forms/signals';
 import { TrackService } from '../services/track';
+import { ToastService } from '../services/toast';
 import { Track } from '../models/track';
 
 // Modèle typé du formulaire (les champs saisis par l'utilisateur).
@@ -21,6 +22,7 @@ export interface TrackFormValue {
 export class TrackForm {
   private trackService = inject(TrackService);
   private router = inject(Router);
+  private toast = inject(ToastService);
 
   // Paramètre de route optionnel : présent en mode édition (tracks/:id/edit).
   id = input<number | undefined>(undefined, {
@@ -63,7 +65,10 @@ export class TrackForm {
     if (id != null) {
       // PATCH /tracks/:id (modification partielle)
       const changes: Partial<Track> = value;
-      this.trackService.update(id, changes).subscribe(() => this.router.navigate(['/tracks']));
+      this.trackService.update(id, changes).subscribe(() => {
+        this.toast.success('Morceau modifié');
+        this.router.navigate(['/tracks']);
+      });
     } else {
       // POST /tracks (création) — title & artist requis côté API
       const payload: Omit<Track, 'id'> = {
@@ -77,7 +82,10 @@ export class TrackForm {
         favorite: false,
         coverUrl: `https://picsum.photos/seed/${Date.now()}/300`,
       };
-      this.trackService.create(payload).subscribe(() => this.router.navigate(['/tracks']));
+      this.trackService.create(payload).subscribe(() => {
+        this.toast.success('Morceau créé');
+        this.router.navigate(['/tracks']);
+      });
     }
   }
 }
