@@ -131,11 +131,27 @@ export class TrackList {
     });
   }
 
-  // Suppression via l'API (DELETE protégé par JWT) puis rechargement.
-  protected removeTrack(id: number) {
-    this.trackService.remove(id).subscribe(() => {
+  // Morceau en attente de confirmation de suppression (null = pas de popup).
+  protected pendingDelete = signal<Track | null>(null);
+
+  // Ouvre la popup de confirmation.
+  protected askDelete(track: Track) {
+    this.pendingDelete.set(track);
+  }
+
+  // Ferme la popup sans rien supprimer.
+  protected cancelDelete() {
+    this.pendingDelete.set(null);
+  }
+
+  // Confirme : suppression via l'API (DELETE protégé par JWT) puis rechargement.
+  protected confirmDelete() {
+    const track = this.pendingDelete();
+    if (!track) return;
+    this.trackService.remove(track.id).subscribe(() => {
       this.reload.update((n) => n + 1);
       this.toast.success('Morceau supprimé');
     });
+    this.pendingDelete.set(null);
   }
 }
