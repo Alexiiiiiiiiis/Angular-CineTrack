@@ -14,6 +14,7 @@ Projet fil rouge réalisé en 4 jours (**J1 → J4**), des fondations jusqu'à u
 - **HttpClient** + **RxJS** (`debounceTime`, `distinctUntilChanged`, `switchMap`, `catchError`)
 - **Routing** : `provideRouter`, lazy loading, guard `CanActivateFn`, `withComponentInputBinding()`
 - **Intercepteurs** fonctionnels (auth JWT + erreurs)
+- **Session persistante** (`localStorage`) + **notifications toast** (signals)
 - Composants en `ChangeDetectionStrategy.OnPush`
 
 ---
@@ -56,20 +57,22 @@ npm run build        # génère dist/cinetrack/browser
 src/app/
 ├── models/track.ts              # Interface Track
 ├── services/
-│   ├── track.ts                 # TrackService : get / search / create / update / remove
-│   └── auth.ts                  # AuthService : login JWT, token en signal
+│   ├── track.ts                 # TrackService : get (tri/filtre) / search / create / update / remove
+│   ├── auth.ts                  # AuthService : login JWT, session persistante (localStorage)
+│   └── toast.ts                 # ToastService : notifications (signal)
 ├── interceptors/
 │   ├── auth-interceptor.ts      # ajoute Authorization: Bearer
-│   └── error-interceptor.ts     # gestion centralisée des erreurs HTTP
+│   └── error-interceptor.ts     # erreurs HTTP centralisées -> toast
 ├── guards/auth-guard.ts         # CanActivateFn (protège les écritures)
 ├── pipes/duration-format-pipe.ts# secondes -> m:ss (pipe pur)
 ├── directives/highlight-favorite.ts # contour doré sur les favoris
-├── track-card/                  # carte morceau
-├── track-list/                  # bibliothèque (route /tracks)
+├── track-card/                  # carte morceau (favori, suppression, badge)
+├── track-list/                  # bibliothèque : recherche, tri/filtre, pagination
 ├── track-detail/                # fiche détail (route /tracks/:id)
 ├── track-form/                  # création / édition (routes protégées)
 ├── track-search/                # recherche serveur (RxJS)
-├── login/                       # connexion JWT
+├── login/                       # connexion JWT (formulaire validé)
+├── toasts/                      # affichage des notifications
 ├── app.routes.ts                # définition des routes (lazy)
 ├── app.config.ts                # providers (http + interceptors + router)
 └── app.ts                       # shell : nav + <router-outlet>
@@ -116,6 +119,20 @@ Toutes les routes sont en **lazy loading** (`loadComponent`). Le paramètre `:id
 - **F11** — CRUD authentifié (`create` POST, `update` PATCH, `remove` DELETE)
 - **F12** — Routing + paramètres + lazy loading + **guard** `CanActivateFn`
 - **F13** — Intercepteur d'erreurs global + build de production
+
+---
+
+## ✨ Fonctionnalités bonus (au-delà du J1→J4)
+
+Ajouts personnels, branchés sur l'API et pilotés par signals :
+
+- **Tri côté serveur** — par titre / artiste / année / note / durée (`?_sort=&_order=`), avec inversion croissant/décroissant.
+- **Filtre favoris** — n'afficher que les favoris (`?favorite=true`).
+- **Toggle favori** — bouton cœur sur la carte → `PATCH /tracks/:id` (réservé aux connectés), met à jour la liste.
+- **Pagination** — 8 morceaux par page, valeurs dérivées par `computed()`.
+- **Compteur** de résultats.
+- **Notifications toast** — retours visuels (succès/erreur) auto-disparition, branchés sur l'intercepteur d'erreurs ; `ToastService` (signal) + composant `Toasts`.
+- **Session persistante** — token + utilisateur stockés en `localStorage` : on reste connecté après un rafraîchissement ; le nom de l'utilisateur s'affiche dans l'en-tête.
 
 ---
 
