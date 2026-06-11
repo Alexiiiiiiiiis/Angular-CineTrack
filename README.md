@@ -128,7 +128,7 @@ Toutes les routes sont en **lazy loading** (`loadComponent`). Le paramètre `:id
 
 ---
 
-## ♥ Fonctionnalité Favoris
+##  Fonctionnalité Favoris
 
 Fonctionnalité complète, branchée sur les endpoints dédiés du backend (`GET /favorites`, `POST` / `DELETE /favorites/:trackId`) et **pilotée par un feature flag**.
 
